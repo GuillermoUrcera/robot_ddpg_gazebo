@@ -1,0 +1,9 @@
+float32[] viapoints
+int16 num_viapoints
+float32 max_time
+float32 max_x
+float32 interval_time
+string[] obstacles
+int16 num_obstacles
+---
+float32 reward

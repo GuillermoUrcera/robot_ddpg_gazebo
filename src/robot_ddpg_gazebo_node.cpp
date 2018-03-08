@@ -1,15 +1,24 @@
 #include "ros/ros.h"
 #include "gazebo_msgs/ModelState.h"
+#include "robot_ddpg_gazebo/EnvLoopSrv.h"
 #include "stdafx.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include "interpolation.h"
 #include <iostream>
+
+bool env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &req, robot_ddpg_gazebo::EnvLoopSrv::Response &res){
+	ROS_INFO("hi");
+	return true;
+}
+
 int main(int argc, char **argv){
   ros::init(argc, argv, "robot_ddpg_gazebo_node");
   ros::NodeHandle n;
   ros::Publisher pub = n.advertise<gazebo_msgs::ModelState>("/gazebo/set_model_state",10);
+  ros::ServiceServer service = n.advertiseService("env_loop_service", env_loop_func);
+  ros::spin();
   // Create the spline:
   // bound conditions=1 means we are limiting the value of the first derivative
   alglib::real_1d_array x = "[0.0,+0.5,+1.0,+1.5,+2.0]";
@@ -21,7 +30,7 @@ int main(int argc, char **argv){
   alglib::ae_int_t right_bound_condition=1;
   double right_bound=0;
   alglib::spline1dbuildcubic(x, y, num_viapoints, left_bound_condition, left_bound, right_bound_condition, right_bound, s);
-  // TODO max_time max_x and inerval_time should be set via a service
+  // TODO max_time max_x and interval_time should be set via a service
   float max_x=2;
   float max_time=2;
   float interval_time=0.05;
@@ -53,3 +62,5 @@ int main(int argc, char **argv){
   }
   return 0;
 }
+
+
