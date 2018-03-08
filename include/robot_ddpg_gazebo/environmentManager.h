@@ -19,4 +19,5 @@ class EnvironmentManager{
 		ros::Publisher pub;
 		ros::ServiceServer service;
 		bool env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &req, robot_ddpg_gazebo::EnvLoopSrv::Response &res);
+		float calculateReward();
 };
