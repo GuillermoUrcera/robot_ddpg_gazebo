@@ -26,9 +26,9 @@ int main(int argc, char **argv){
   int num_points=max_time/interval_time;
   double position_array[num_points];
   double velocity_array[num_points];
+  double acc_array[num_points];
   for(unsigned int i=0;i<num_points;i++){
-	  position_array[i]=spline1dcalc(s,i*interval_time);
-	  std::cout<<"Calculating for"<<i*interval_time<<std::endl;
+	  alglib::spline1ddiff(s,i*interval_time,position_array[i],velocity_array[i],acc_array[i]);
   }
   ros::Time t0 = ros::Time::now();
   int e=0;
@@ -38,6 +38,7 @@ int main(int argc, char **argv){
 		msg.model_name="box";
 		msg.pose.position.x=0;
 		msg.pose.position.y=position_array[e];
+		msg.twist.linear.y=velocity_array[e];
 		pub.publish(msg);
 		ros::spinOnce();
 		t0 = ros::Time::now();
