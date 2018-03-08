@@ -116,6 +116,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
   include/alglib
+  include/robot_ddpg_gazebo
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -130,7 +131,7 @@ add_library(alglib ${ALGLIB_FILES})
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_node src/robot_ddpg_gazebo_node.cpp)
+add_executable(${PROJECT_NAME}_node src/robot_ddpg_gazebo_node.cpp src/environmentManager.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
