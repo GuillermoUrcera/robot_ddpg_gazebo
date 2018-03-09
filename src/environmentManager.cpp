@@ -40,7 +40,7 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
 	srv.request.model_state.pose.position.x=req.obstacle_positions[i*2];
 	srv.request.model_state.pose.position.y=req.obstacle_positions[i*2+1];
 	srv.request.model_state.pose.position.z=0;
-	if(this->obstacle_client.call(srv)){
+	if(this->obstacle_client_setter.call(srv)){
 	  ROS_INFO("Obstacles set");
 	}else{
 	  ROS_WARN("Obstacles unable to be set");
@@ -64,14 +64,22 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
 		e+=1;
 	}
   }
+  // Calculate reward
+  float reward=0;
+  gazebo_msgs::GetModelState get_srv;
+  for(unsigned char i=0;i<req.num_obstacles;i++){
+	  get_srv.request.model_name=req.obstacles[i];
+	  if(this->obstacle_client_getter.call(get_srv)){
+		reward+=std::sqrt(std::pow(float(get_srv.response.pose.position.x)-float(req.obstacle_positions[i*2]),2)+std::pow(float(get_srv.response.pose.position.y)-float(req.obstacle_positions[i*2+1]),2));
+	  }else{
+		ROS_ERROR("OBSTACLE POSITION NOT READABLE!");
+	  }
+  }
   // Reset world
   this->reset();
   // Return reward
-  // TODO 
+  res.reward=reward;
   return true;
-}
-
-float EnvironmentManager::calculateReward(){
 }
 
 void EnvironmentManager::reset(){
