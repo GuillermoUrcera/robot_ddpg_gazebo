@@ -41,7 +41,7 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
 		msg.model_name="TCP";
 		msg.pose.position.x=x_position_array[e];
 		msg.pose.position.y=position_array[e];
-		msg.pose.position.z=1;
+		msg.pose.position.z=0.25;
 		msg.twist.linear.x=x_velocity;
 		msg.twist.linear.y=velocity_array[e];
 		this->pub.publish(msg);
@@ -50,10 +50,19 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
 		e+=1;
 	}
   }
+  this->reset();
   return true;
 }
 
 float EnvironmentManager::calculateReward(){
 }
 
+void EnvironmentManager::reset(){
+	std_srvs::Empty e;
+	if(this->reset_client.call(e)){
+		ROS_INFO("Gazebo world reset");
+	}else{
+		ROS_WARN("Gazebo world unable to be reset");
+	}
+}
 

@@ -64,8 +64,8 @@
         <visual name="visual">
           <geometry>
 		    <cylinder>
-			  <radius>0.5</radius>
-			  <length>0.25</length>
+			  <radius>0.75</radius>
+			  <length>0.5</length>
 		    </cylinder>
           </geometry>
         </visual>
@@ -73,7 +73,7 @@
     </model>      
     <model name="TCP">
 	  <gravity>0</gravity>
-      <pose>0 0 1 0 0 0</pose>
+      <pose>0 0 0.25 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
