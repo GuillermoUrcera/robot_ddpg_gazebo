@@ -82,7 +82,6 @@
             </box>
           </geometry>
         </collision>
-
         <visual name="visual">
           <geometry>
             <box>

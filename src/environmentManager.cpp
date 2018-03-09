@@ -41,6 +41,7 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
 		msg.model_name="TCP";
 		msg.pose.position.x=x_position_array[e];
 		msg.pose.position.y=position_array[e];
+		msg.pose.position.z=1;
 		msg.twist.linear.x=x_velocity;
 		msg.twist.linear.y=velocity_array[e];
 		this->pub.publish(msg);
@@ -54,3 +55,5 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
 
 float EnvironmentManager::calculateReward(){
 }
+
+
