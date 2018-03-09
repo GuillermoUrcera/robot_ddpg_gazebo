@@ -8,8 +8,70 @@
     <include>
       <uri>model://sun</uri>
     </include>
-
-    <model name="box">
+    <model name="obs_1">
+      <pose>2 2 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+		    <cylinder>
+			  <radius>0.75</radius>
+			  <length>0.5</length>
+		    </cylinder>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+		    <cylinder>
+			  <radius>0.75</radius>
+			  <length>0.5</length>
+		    </cylinder>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+    <model name="obs_2">
+      <pose>5 4 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+		    <cylinder>
+			  <radius>0.75</radius>
+			  <length>0.5</length>
+		    </cylinder>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+		    <cylinder>
+			  <radius>0.75</radius>
+			  <length>0.5</length>
+		    </cylinder>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+    <model name="obs_3">
+      <pose>7 -2 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+		    <cylinder>
+			  <radius>0.75</radius>
+			  <length>0.5</length>
+		    </cylinder>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+		    <cylinder>
+			  <radius>0.5</radius>
+			  <length>0.25</length>
+		    </cylinder>
+          </geometry>
+        </visual>
+      </link>
+    </model>      
+    <model name="TCP">
 	  <gravity>0</gravity>
       <pose>0 0 1 0 0 0</pose>
       <link name="link">
@@ -29,8 +91,6 @@
           </geometry>
         </visual>
       </link>
-
-      <plugin name="velocity_control_plugin" filename="libvelocity_control_plugin.so"/>
     </model>  
   </world>
 </sdf>

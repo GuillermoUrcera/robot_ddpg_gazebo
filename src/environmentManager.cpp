@@ -38,7 +38,7 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
   while(e<num_points){
 	if(ros::Time::now()-t0>ros::Duration(interval_time)){
 		gazebo_msgs::ModelState msg;
-		msg.model_name="box";
+		msg.model_name="TCP";
 		msg.pose.position.x=x_position_array[e];
 		msg.pose.position.y=position_array[e];
 		msg.twist.linear.x=x_velocity;
