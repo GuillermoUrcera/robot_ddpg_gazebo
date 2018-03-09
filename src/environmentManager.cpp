@@ -33,6 +33,20 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
 	  alglib::spline1ddiff(s,i*interval_time,position_array[i],velocity_array[i],acc_array[i]);
 	  x_position_array[i]=i*interval_time*x_velocity;
   }
+  // Set initial positions
+  gazebo_msgs::SetModelState srv;
+  for(unsigned char i=0;i<req.num_obstacles;i++){
+	srv.request.model_state.model_name=req.obstacles[i];
+	srv.request.model_state.pose.position.x=req.obstacle_positions[i*2];
+	srv.request.model_state.pose.position.y=req.obstacle_positions[i*2+1];
+	srv.request.model_state.pose.position.z=0;
+	if(this->obstacle_client.call(srv)){
+	  ROS_INFO("Obstacles set");
+	}else{
+	  ROS_WARN("Obstacles unable to be set");
+	}
+  }
+  // Run episode
   ros::Time t0 = ros::Time::now();
   int e=0;
   while(e<num_points){
@@ -50,7 +64,10 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
 		e+=1;
 	}
   }
+  // Reset world
   this->reset();
+  // Return reward
+  // TODO 
   return true;
 }
 
@@ -65,4 +82,3 @@ void EnvironmentManager::reset(){
 		ROS_WARN("Gazebo world unable to be reset");
 	}
 }
-

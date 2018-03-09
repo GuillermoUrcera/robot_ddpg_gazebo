@@ -5,5 +5,6 @@ float32 max_x
 float32 interval_time
 string[] obstacles
 int16 num_obstacles
+float32[] obstacle_positions
 ---
 float32 reward
