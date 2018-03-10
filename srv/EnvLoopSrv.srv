@@ -1,4 +1,4 @@
-float32[] viapoints
+float64[] viapoints
 int16 num_viapoints
 float32 max_time
 float32 max_x

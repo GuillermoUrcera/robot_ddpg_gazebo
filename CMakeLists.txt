@@ -133,6 +133,7 @@ add_library(alglib ${ALGLIB_FILES})
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(${PROJECT_NAME}_node src/robot_ddpg_gazebo_node.cpp src/environmentManager.cpp)
+add_executable(offpolicy_data_creator_node src/offpolicy_data_creator.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -146,6 +147,7 @@ add_executable(${PROJECT_NAME}_node src/robot_ddpg_gazebo_node.cpp src/environme
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} alglib)
+target_link_libraries(offpolicy_data_creator_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##
