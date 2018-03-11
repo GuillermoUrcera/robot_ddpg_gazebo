@@ -8,7 +8,7 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
   double temp_x_array[req.num_viapoints];
   double temp_y_array[req.num_viapoints];
   for(unsigned char i=0;i<req.num_viapoints;i++){
-	  temp_x_array[i]=i*(req.max_x/(req.num_viapoints-1));
+	  temp_x_array[i]=i*(req.max_time/(req.num_viapoints-1));
 	  temp_y_array[i]=req.viapoints[i];
   }
   x.setcontent(int(req.num_viapoints), &(temp_x_array[0]));
@@ -20,6 +20,7 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
   alglib::ae_int_t right_bound_condition=1;
   double right_bound=0;
   alglib::spline1dbuildcubic(x, y, num_viapoints, left_bound_condition, left_bound, right_bound_condition, right_bound, s);
+  // Discretize path
   float max_x=req.max_x;
   float max_time=req.max_time;
   float interval_time=req.interval_time;
