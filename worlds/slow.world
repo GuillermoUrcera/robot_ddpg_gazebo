@@ -1,10 +1,8 @@
 <?xml version="1.0" ?>
 <sdf version="1.4">
   <world name="default">
-  <physics type="ode">
-    <real_time_update_rate>0.000000</real_time_update_rate>
-    <max_step_size>0.010000</max_step_size>
-  </physics>
+    <physics type="ode">
+    </physics>
     <include>
       <uri>model://ground_plane</uri>
     </include>
