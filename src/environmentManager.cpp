@@ -42,7 +42,7 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
 	srv.request.model_state.pose.position.y=req.obstacle_positions[i*2+1];
 	srv.request.model_state.pose.position.z=0;
 	if(this->obstacle_client_setter.call(srv)){
-	  ROS_INFO("Obstacles set");
+	  ROS_INFO("Obstacle set");
 	}else{
 	  ROS_WARN("Obstacles unable to be set");
 	}
