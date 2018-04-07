@@ -4,5 +4,4 @@
     <arg name="world_name" value="$(find robot_ddpg_gazebo)/worlds/main.world"/>
     <arg name="gui" value="false"/>
   </include>
-  <node name="gazebo_agent" pkg="robot_ddpg_agent_ros" type="main_gazebo.py"/>
 </launch>
