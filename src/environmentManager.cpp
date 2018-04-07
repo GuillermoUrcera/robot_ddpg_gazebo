@@ -77,7 +77,7 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
 	  }
   }
   // Reset world
-  this->reset();
+  //this->reset();
   // Return reward
   res.reward=-reward;
   return true;
