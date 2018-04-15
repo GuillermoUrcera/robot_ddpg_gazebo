@@ -93,3 +93,53 @@ void EnvironmentManager::reset(){
 		ROS_WARN("Gazebo world unable to be reset");
 	}
 }
+
+bool EnvironmentManager::kautham_loop_func(robot_ddpg_gazebo::KauthamLoopSrv::Request &req, robot_ddpg_gazebo::KauthamLoopSrv::Response &res){
+  // Calculate distance
+  float distance=0.f;
+  for(unsigned int i=1;i<req.num_points-1;i++)distance+=std::sqrt(std::pow(req.x[i+1]-req.x[i],2)+std::pow(req.y[i+1]-req.y[i],2));
+  // Set initial positions
+  gazebo_msgs::SetModelState srv;
+  for(unsigned char i=0;i<req.num_obstacles;i++){
+	srv.request.model_state.model_name=req.obstacles[i];
+	srv.request.model_state.pose.position.x=req.obstacle_positions[i*2];
+	srv.request.model_state.pose.position.y=req.obstacle_positions[i*2+1];
+	srv.request.model_state.pose.position.z=0;
+	if(this->obstacle_client_setter.call(srv)){
+	  ROS_INFO("Obstacle set");
+	}else{
+	  ROS_WARN("Obstacles unable to be set");
+	}
+  }
+  // Run episode
+  ros::Time t0 = ros::Time::now();
+  int e=0;
+  while(e<req.num_points){
+	if(ros::Time::now()-t0>ros::Duration(float(req.t[e]))){
+		gazebo_msgs::ModelState msg;
+		msg.model_name="TCP";
+		msg.pose.position.x=req.x[e];
+		msg.pose.position.y=req.y[e];
+		msg.pose.position.z=0.25;
+		this->pub.publish(msg);
+		ros::spinOnce();
+		t0 = ros::Time::now();
+		e+=1;
+	}
+  }
+  // Calculate reward
+  float reward=0;
+  gazebo_msgs::GetModelState get_srv;
+  for(unsigned char i=0;i<req.num_obstacles;i++){
+	  get_srv.request.model_name=req.obstacles[i];
+	  if(this->obstacle_client_getter.call(get_srv)){
+		reward-=std::sqrt(std::pow(float(get_srv.response.pose.position.x)-float(req.obstacle_positions[i*2]),2)+std::pow(float(get_srv.response.pose.position.y)-float(req.obstacle_positions[i*2+1]),2));
+	  }else{
+		ROS_ERROR("OBSTACLE POSITION NOT READABLE!");
+	  }
+  }
+  reward-=distance*this->DISTANCE_MOD;
+  // Return reward
+  res.reward=reward;
+  return true;
+}

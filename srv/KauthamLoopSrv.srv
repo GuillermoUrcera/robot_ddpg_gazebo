@@ -1,0 +1,9 @@
+float32[] x
+float32[] y
+float32[] t
+int16 num_points
+string[] obstacles
+int16 num_obstacles
+float32[] obstacle_positions
+---
+float32 reward
