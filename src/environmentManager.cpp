@@ -36,6 +36,7 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
   }
   // Calculate distance
   float distance=0.f;
+  float obstacle_displacement=0.f;
   for(unsigned int i=1;i<num_points-1;i++)distance+=std::sqrt(std::pow(x_position_array[i+1]-x_position_array[i],2)+std::pow(position_array[i+1]-position_array[i],2));
   // Set initial positions
   gazebo_msgs::SetModelState srv;
@@ -74,14 +75,16 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
   for(unsigned char i=0;i<req.num_obstacles;i++){
 	  get_srv.request.model_name=req.obstacles[i];
 	  if(this->obstacle_client_getter.call(get_srv)){
-		reward-=std::sqrt(std::pow(float(get_srv.response.pose.position.x)-float(req.obstacle_positions[i*2]),2)+std::pow(float(get_srv.response.pose.position.y)-float(req.obstacle_positions[i*2+1]),2));
+		obstacle_displacement+=std::sqrt(std::pow(float(get_srv.response.pose.position.x)-float(req.obstacle_positions[i*2]),2)+std::pow(float(get_srv.response.pose.position.y)-float(req.obstacle_positions[i*2+1]),2));
 	  }else{
 		ROS_ERROR("OBSTACLE POSITION NOT READABLE!");
 	  }
   }
-  reward-=distance*this->DISTANCE_MOD;
+  reward=-obstacle_displacement-(distance*this->DISTANCE_MOD);
   // Return reward
   res.reward=reward;
+  res.distance_covered=distance;
+  res.obstacle_displacement=obstacle_displacement;
   return true;
 }
 
@@ -97,6 +100,7 @@ void EnvironmentManager::reset(){
 bool EnvironmentManager::kautham_loop_func(robot_ddpg_gazebo::KauthamLoopSrv::Request &req, robot_ddpg_gazebo::KauthamLoopSrv::Response &res){
   // Calculate distance
   float distance=0.f;
+  float obstacle_displacement=0.f;
   for(unsigned int i=1;i<req.num_points-1;i++)distance+=std::sqrt(std::pow(req.x[i+1]-req.x[i],2)+std::pow(req.y[i+1]-req.y[i],2));
   // Set initial positions
   gazebo_msgs::SetModelState srv;
@@ -133,13 +137,15 @@ bool EnvironmentManager::kautham_loop_func(robot_ddpg_gazebo::KauthamLoopSrv::Re
   for(unsigned char i=0;i<req.num_obstacles;i++){
 	  get_srv.request.model_name=req.obstacles[i];
 	  if(this->obstacle_client_getter.call(get_srv)){
-		reward-=std::sqrt(std::pow(float(get_srv.response.pose.position.x)-float(req.obstacle_positions[i*2]),2)+std::pow(float(get_srv.response.pose.position.y)-float(req.obstacle_positions[i*2+1]),2));
+		obstacle_displacement+=std::sqrt(std::pow(float(get_srv.response.pose.position.x)-float(req.obstacle_positions[i*2]),2)+std::pow(float(get_srv.response.pose.position.y)-float(req.obstacle_positions[i*2+1]),2));
 	  }else{
 		ROS_ERROR("OBSTACLE POSITION NOT READABLE!");
 	  }
   }
-  reward-=distance*this->DISTANCE_MOD;
+  reward=-obstacle_displacement-(distance*this->DISTANCE_MOD);
   // Return reward
   res.reward=reward;
+  res.distance_covered=distance;
+  res.obstacle_displacement=obstacle_displacement;
   return true;
 }

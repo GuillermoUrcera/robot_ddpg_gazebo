@@ -7,3 +7,5 @@ int16 num_obstacles
 float32[] obstacle_positions
 ---
 float32 reward
+float32 distance_covered
+float32 obstacle_displacement
