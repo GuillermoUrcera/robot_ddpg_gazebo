@@ -15,16 +15,16 @@
         <collision name="collision">
           <geometry>
 		    <cylinder>
-			  <radius>0.75</radius>
-			  <length>0.5</length>
+			  <radius>0.333</radius>
+			  <length>1.15</length>
 		    </cylinder>
           </geometry>
         </collision>
         <visual name="visual">
-          <geometry>
+          <geometry>             
 		    <cylinder>
-			  <radius>0.75</radius>
-			  <length>0.5</length>
+			  <radius>0.333</radius>
+			  <length>1.15</length>
 		    </cylinder>
           </geometry>
         </visual>
@@ -36,16 +36,16 @@
         <collision name="collision">
           <geometry>
 		    <cylinder>
-			  <radius>0.75</radius>
-			  <length>0.5</length>
+			  <radius>0.333</radius>
+			  <length>1.15</length>
 		    </cylinder>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
 		    <cylinder>
-			  <radius>0.75</radius>
-			  <length>0.5</length>
+			  <radius>0.333</radius>
+			  <length>1.15</length>>
 		    </cylinder>
           </geometry>
         </visual>
@@ -57,16 +57,16 @@
         <collision name="collision">
           <geometry>
 		    <cylinder>
-			  <radius>0.75</radius>
-			  <length>0.5</length>
+			  <radius>0.333</radius>
+			  <length>1.15</length>
 		    </cylinder>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
 		    <cylinder>
-			  <radius>0.75</radius>
-			  <length>0.5</length>
+			  <radius>0.333</radius>
+			  <length>1.15</length>
 		    </cylinder>
           </geometry>
         </visual>
@@ -78,16 +78,16 @@
         <collision name="collision">
           <geometry>
 		    <cylinder>
-			  <radius>0.75</radius>
-			  <length>0.5</length>
+			  <radius>0.333</radius>
+			  <length>1.15</length>
 		    </cylinder>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
 		    <cylinder>
-			  <radius>0.75</radius>
-			  <length>0.5</length>
+			  <radius>0.333</radius>
+			  <length>1.15</length>
 		    </cylinder>
           </geometry>
         </visual>
@@ -99,16 +99,16 @@
       <link name="link">
         <collision name="collision">
           <geometry>
-            <box>
-              <size>1 1 1</size>
-            </box>
+			<sphere>
+				<radius>0.35</radius>
+			</sphere>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
-            <box>
-              <size>1 1 1</size>
-            </box>
+			<sphere>
+				<radius>0.35</radius>
+			</sphere>
           </geometry>
         </visual>
       </link>
