@@ -78,6 +78,7 @@ bool EnvironmentManager::env_loop_func(robot_ddpg_gazebo::EnvLoopSrv::Request &r
 		obstacle_displacement+=std::sqrt(std::pow(float(get_srv.response.pose.position.x)-float(req.obstacle_positions[i*2]),2)+std::pow(float(get_srv.response.pose.position.y)-float(req.obstacle_positions[i*2+1]),2));
 	  }else{
 		ROS_ERROR("OBSTACLE POSITION NOT READABLE!");
+		obstacle_displacement=0; //TODO do something if this happens!
 	  }
   }
   reward=-obstacle_displacement-(distance*this->DISTANCE_MOD);
@@ -140,6 +141,7 @@ bool EnvironmentManager::kautham_loop_func(robot_ddpg_gazebo::KauthamLoopSrv::Re
 		obstacle_displacement+=std::sqrt(std::pow(float(get_srv.response.pose.position.x)-float(req.obstacle_positions[i*2]),2)+std::pow(float(get_srv.response.pose.position.y)-float(req.obstacle_positions[i*2+1]),2));
 	  }else{
 		ROS_ERROR("OBSTACLE POSITION NOT READABLE!");
+		obstacle_displacement=0; //TODO do something if this happens!
 	  }
   }
   reward=-obstacle_displacement-(distance*this->DISTANCE_MOD);
